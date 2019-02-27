@@ -67,7 +67,7 @@ class PZEM004T:
 
     def setPowerAlarm(self,power):
         self.setPowerAlarmCmd[5] = power
-        self.send(bytearray(self.setPowerAlarmCmd))
+        data = self.send(bytearray(self.setPowerAlarmCmd))
         if data[0]:
             return True
         return False
