@@ -34,37 +34,46 @@ class PZEM004T:
 
     def isReady(self):
         data = self.send(self.setAddrBytes)
-        if data[0]:
+        if data:
             return True
         return False
 
     def readVoltage(self):
         data = self.send(self.readVoltageBytes)
-        if data[0]:
+        if data:
             return data[2] + data[3] / 10.0
         return None
 
     def readCurrent(self):
         data = self.send(self.readCurrentBytes)
-        if data[0]:
+        if data:
             return data[2] + data[3] / 100.0
         return None
 
     def readPower(self):
         data = self.send(self.readPowerBytes)
-        if data[0]:
+        if data:
             return data[1] * 256 + data[2]
         return None
 
     def readEnergy(self):
         data = self.send(self.readEnergyBytes)
-        if data[0]:
+        if data:
             return data[1] * 256 * 256 + data[2] * 256 + data[3]
         return None
 
     def readAll(self):
         return self.readVoltage(), self.readCurrent(), self.readPower(), self.readEnergy()
-
+    
+    def setPowerAlarm(self, power):
+        self.setPowerAlarmCmd[5] = power
+        self.setPowerAlarmCmd.pop()
+        self.setPowerAlarmCmd.append(sum(self.setPowerAlarmCmd) % 256)
+        data = self.send(bytearray(self.setPowerAlarmCmd))
+        if data:
+            return True
+        return False
+    
     def send(self, cmd):
         self.uart.read()
         self.uart.write(cmd)
