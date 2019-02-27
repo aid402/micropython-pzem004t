@@ -66,8 +66,8 @@ class PZEM004T:
         return self.readVoltage(), self.readCurrent(), self.readPower(), self.readEnergy()
 
     def setPowerAlarm(self,power):
-        setPowerAlarmCmd[5] = power
-        self.send(bytearray(setPowerAlarmCmd))
+        self.setPowerAlarmCmd[5] = power
+        self.send(bytearray(self.setPowerAlarmCmd))
         if data[0]:
             return True
         return False
