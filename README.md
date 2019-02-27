@@ -12,5 +12,4 @@ emon.readCurrent()
 emon.readPower()
 emon.readEnergy()
 emon.readAll()
-emon.setPowerAlarm(20) #set power alarm threshold:20 KW
 ```
